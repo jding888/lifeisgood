@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to calculate max range sum</p>
+<p> 7 -3 -10 4 2 8 -2 4 -5 -2 -1 </p>
+
+
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+	var nums = [7, -3, -10, 4, 2, 8, -2, 4, -5, -2, -1];
+	var sum=0, max=Number.MIN_VALUE;
+	var i;
+	for (i=0; i<nums.length; i++){
+		sum += nums[i];
+		max = Math.max(sum,max);
+		sum = Math.max(sum,0);	
+	}
+	alert("7,-3,-10,4,2,8,-2,4,-5,-2,-1 max is " + max);
+	document.getElementById("demo").innerHTML = max;
+}
+</script>
+
+</body>
+</html>
