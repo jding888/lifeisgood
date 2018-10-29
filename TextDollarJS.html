@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Test Dollar Javascript</title>
+</head>
+<body>
+		 <p>Click the button to calculate calculate Text Dollars</p>
+		 
+		 <button onclick="myFunction()">Try it</button>
+
+		<p id="demo"></p>
+			
+		<script>
+		 const oneToTwenty = [ "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", 
+					"Eleven" , "Twelve", "Thirteen ", "Fourteen ", "Fifteen ", "Sixteen", "Seventeen", "Seventeen", 
+					"Eighteen", "Nineteen", "Twenty" ];
+		 const twentyToNinty =["","", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninty"];
+		 const bigNumber =[ "","",  "Thousand","Million", "Billion" ];	
+		 const DOLLAR = "Dollars";	
+		 const HUNDRED = "Hundred";
+		 const DIV1000 = 1000;
+		 var parts = [];	
+		 var ct=0;
+	
+		function myFunction() {
+		/*	var readline = require('readline');
+			var rl = readline.createInterface(process.stdin, process.stdout);
+			rl.question("what is the name a ?", function (answer){
+			});*/
+			var num;
+			var testData = [ 4, 88, 899, 3546, 32477, 343494, 98030923, 473788888, 100000000, 1000000000, 1000000000 ]
+			var j;
+			for (j=0; j<testData.length; j++){
+				num = testData[j];
+				var ret = convertTextDollar(num);
+				console.log(num + " " + ret + DOLLAR);	
+				alert( num + " -- " + ret + DOLLAR +" \n Click OK for next value ");
+			}
+			
+			var ret = convertTextDollar(1000000000);
+			console.log(1000000000 + " " + ret + DOLLAR);
+		}
+		
+		function convertTextDollar (num){
+			if (num==0) return "ZERO";
+			if ( num>0 && num<=1000){
+				return convertTextDollarLess1000(num);
+			}
+			else {
+				parts = [];	
+				makeParts(num);	
+					var i=ct-1;
+					var sb="";
+					for ( ; i>=0; i--){	
+					//	console.log("i" + " " + parts[i]);
+						var s = convertTextDollarLess1000(parts[i]);
+						if ( isNaN(s) || s!=0){
+							sb += s;
+							sb += bigNumber[ct];
+						//	console.log(sb);
+						}
+						ct--;
+					}
+					return sb;	
+			}
+		}
+		
+		function makeParts(num){			
+			var div = Math.floor(num/DIV1000);
+			var rem = num%DIV1000;
+			parts.push(rem);
+			ct++;
+			if (div>=DIV1000){
+				makeParts(div);
+			}
+			else{
+				parts.push(div);
+				ct++;
+			}
+			console.log(parts);
+		}
+		
+		function convertTextDollarLess1000( num){
+			if (num==0 || isNaN(num)) return "";
+			else if ( num>0 && num<=20){
+				var r = oneToTwenty[num-1];
+				return r;
+			}
+			else if ( num >20 && num<100){
+				var digOne = num%10;
+				var digTwo = Math.floor(num/10);		
+				if (digOne==0){
+					return twentyToNinty[digTwo];
+				}
+				else{
+					return twentyToNinty[digTwo]+oneToTwenty[digOne-1];
+				}			
+			}
+			else {
+				var digThree = Math.floor(num/100);
+				var rem = num%100;
+				var r= oneToTwenty[digThree-1]+HUNDRED + convertTextDollarLess1000(rem);	
+				return r;
+			}	
+		}
+		</script>
+			
+</body>
+</html>
